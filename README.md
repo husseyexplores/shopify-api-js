@@ -53,13 +53,13 @@ The first thing you need to import is the adapter for your app's runtime. This w
 <div>Node.js
 
 ```ts
-import '@shopify/shopify-api/adapters/node';
+import '@husseyexplores/shopify-api/adapters/node';
 ```
 
 </div><div>CloudFlare Worker
 
 ```ts
-import '@shopify/shopify-api/adapters/cf-worker';
+import '@husseyexplores/shopify-api/adapters/cf-worker';
 ```
 
 </div>
@@ -73,8 +73,8 @@ Next, configure the library - you'll need some values in advance:
 Call `shopifyApi` ([see reference](./docs/reference/shopifyApi.md)) to create your library object before setting up your app itself:
 
 ```ts
-import '@shopify/shopify-api/adapters/node';
-import {shopifyApi, LATEST_API_VERSION} from '@shopify/shopify-api';
+import '@husseyexplores/shopify-api/adapters/node';
+import {shopifyApi, LATEST_API_VERSION} from '@husseyexplores/shopify-api';
 import express from 'express';
 
 const shopify = shopifyApi({
