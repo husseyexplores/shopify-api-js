@@ -25,7 +25,7 @@ import {logger, ShopifyLogger} from '../../logger';
 
 import {
   SESSION_COOKIE_NAME,
-  STATE_COOKIE_NAME,
+  // STATE_COOKIE_NAME,
   BeginParams,
   CallbackParams,
   AuthQuery,
@@ -84,7 +84,7 @@ export function begin(config: ConfigInterface) {
 
     const state = nonce();
 
-    await cookies.setAndSign(STATE_COOKIE_NAME, state, {
+    await cookies.setAndSign(config.stateCookieName, state, {
       expires: new Date(Date.now() + 60000),
       sameSite: 'lax',
       secure: true,
@@ -151,8 +151,8 @@ export function callback(config: ConfigInterface) {
       secure: true,
     });
 
-    const stateFromCookie = await cookies.getAndVerify(STATE_COOKIE_NAME);
-    cookies.deleteCookie(STATE_COOKIE_NAME);
+    const stateFromCookie = await cookies.getAndVerify(config.stateCookieName);
+    cookies.deleteCookie(config.stateCookieName);
     if (!stateFromCookie) {
       log.error('Could not find OAuth cookie', {shop});
 
