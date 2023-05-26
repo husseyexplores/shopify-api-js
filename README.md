@@ -1,4 +1,4 @@
-#`@husseyexplores/shopify-api`
+# `@husseyexplores/shopify-api`
 
 **Note**
 This library is a patched version of  [`@shopify/shopify-api@7.2.0`](https://github.com/Shopify/shopify-api-js/tree/04c39a3a30d6ee59672a5be78319f898a1dc270e) with a fix for this [issue](https://github.com/Shopify/shopify-api-js/issues/891)
