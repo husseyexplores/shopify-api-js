@@ -3,9 +3,20 @@
 **Note**
 This library is a patched version of  [`@shopify/shopify-api@7.2.0`](https://github.com/Shopify/shopify-api-js/tree/04c39a3a30d6ee59672a5be78319f898a1dc270e) with a fix for this [issue](https://github.com/Shopify/shopify-api-js/issues/891)
 
-It exposes a new config option named `stateCookieName` to override default state cookie name.
+It exposes two new config options, namely: 
+- `stateCookieName`: string - to override default state cookie name.
+- `stateCookieSigned`: boolean - To control cookie signing
 
 Just replace all the imports of `@shopify/shopify-api` with `@husseyexplores/shopify-api` and you're good to go.
+
+When deploying to firebase, set: 
+```js
+shopifyApi({
+  stateCookieName: '__session',
+  stateCookieSigned: false,
+  ...,
+})
+```
 
 <!-- ![Build Status]() -->
 

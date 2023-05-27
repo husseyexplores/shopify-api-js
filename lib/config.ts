@@ -4,11 +4,12 @@ import {LATEST_API_VERSION, LogSeverity} from './types';
 import {AuthScopes} from './auth/scopes';
 import {logger as createLogger} from './logger';
 import {enableCodeAfterVersion} from './utils/versioned-codeblocks';
-import { STATE_COOKIE_NAME } from './auth/types';
+import {STATE_COOKIE_NAME} from './auth/types';
 
 export function validateConfig(params: ConfigParams<any>): ConfigInterface {
   const config: ConfigInterface = {
     stateCookieName: STATE_COOKIE_NAME,
+    stateCookieSigned: true,
     apiKey: '',
     apiSecretKey: '',
     scopes: new AuthScopes([]),
@@ -58,6 +59,7 @@ export function validateConfig(params: ConfigParams<any>): ConfigInterface {
 
   const {
     stateCookieName,
+    stateCookieSigned,
     hostScheme,
     isCustomStoreApp,
     adminApiAccessToken,
@@ -72,6 +74,7 @@ export function validateConfig(params: ConfigParams<any>): ConfigInterface {
   Object.assign(config, mandatoryParams, {
     stateCookieName: stateCookieName || config.stateCookieName,
     hostName: params.hostName.replace(/\/$/, ''),
+    stateCookieSigned: stateCookieSigned ?? true,
     scopes:
       params.scopes instanceof AuthScopes
         ? params.scopes

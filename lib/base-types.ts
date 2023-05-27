@@ -8,6 +8,7 @@ export type LogFunction = (severity: LogSeverity, msg: string) => void;
 
 export interface ConfigParams<T extends ShopifyRestResources = any> {
   stateCookieName?: string;
+  stateCookieSigned?: boolean;
   apiKey?: string;
   apiSecretKey: string;
   scopes?: string[] | AuthScopes;
@@ -32,6 +33,7 @@ export interface ConfigParams<T extends ShopifyRestResources = any> {
 
 export interface ConfigInterface extends Omit<ConfigParams, 'restResources'> {
   stateCookieName: string;
+  stateCookieSigned?: boolean;
   apiKey: string;
   hostScheme: 'http' | 'https';
   scopes: AuthScopes;

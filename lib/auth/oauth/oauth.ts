@@ -20,6 +20,7 @@ import {
   Cookies,
   NormalizedResponse,
   NormalizedRequest,
+  CookieData,
 } from '../../../runtime/http';
 import {logger, ShopifyLogger} from '../../logger';
 
@@ -84,12 +85,18 @@ export function begin(config: ConfigInterface) {
 
     const state = nonce();
 
-    await cookies.setAndSign(config.stateCookieName, state, {
+    const stateCookieData = {
       expires: new Date(Date.now() + 60000),
       sameSite: 'lax',
       secure: true,
       path: callbackPath,
-    });
+    } satisfies Partial<CookieData>;
+
+    if (config.stateCookieSigned) {
+      await cookies.setAndSign(config.stateCookieName, state, stateCookieData);
+    } else {
+      cookies.set(config.stateCookieName, state, stateCookieData);
+    }
 
     const query = {
       client_id: config.apiKey,
@@ -151,10 +158,17 @@ export function callback(config: ConfigInterface) {
       secure: true,
     });
 
-    const stateFromCookie = await cookies.getAndVerify(config.stateCookieName);
+    const stateFromCookie = config.stateCookieSigned
+      ? await cookies.getAndVerify(config.stateCookieName)
+      : cookies.get(config.stateCookieName);
     cookies.deleteCookie(config.stateCookieName);
     if (!stateFromCookie) {
-      log.error('Could not find OAuth cookie', {shop});
+      log.error('Could not find OAuth cookie', {
+        shop,
+        cookieName: config.stateCookieName,
+        requestCookies: request.headers.cookies,
+        receivedCookieJar: cookies.receivedCookieJar,
+      });
 
       throw new ShopifyErrors.CookieNotFound(
         `Cannot complete OAuth process. Could not find an OAuth cookie for shop url: ${shop}`,
